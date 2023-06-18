@@ -10,10 +10,10 @@ public interface BibleService {
 
     /**
      * 성경 말씀을 검색합니다. 하나의 성경 말씀을 검색해 불러옵니다.
-     * @param bibleSearchDto 성경 검색을 위한 Dto 를 받아옵니다.
+     * @param bibleRequestDto 성경 검색을 위한 Dto 를 받아옵니다.
      * @return 찾은 성경 말씀을 반환합니다.
      */
-    BibleResponseDto getBibleDetailsInfo(BibleRequestDto bibleSearchDto);
+    BibleResponseDto getBibleDetailsInfo(BibleRequestDto bibleRequestDto);
 
     /**
      * 성경 말씀을 검색합니다. 몇 장인지를 통해 장 전체를 불러옵니다.

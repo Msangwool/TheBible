@@ -20,11 +20,11 @@ public class JpaBibleRepository implements BibleRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Bible findBible(BibleRequestDto bibleSearchDto) {
+    public Bible findBible(BibleRequestDto bibleRequestDto) {
         String getBibleQuery = "select * from bible_korHRV where book = ? and chapter = ? and verse = ?";
-        int getBookBySearchDto = bibleSearchDto.getBook();
-        int getChapterBySearchDto = bibleSearchDto.getChapter();
-        int getVerseBySearchDto = bibleSearchDto.getVerse();
+        int getBookBySearchDto = bibleRequestDto.getBook();
+        int getChapterBySearchDto = bibleRequestDto.getChapter();
+        int getVerseBySearchDto = bibleRequestDto.getVerse();
 
         return this.jdbcTemplate.queryForObject(getBibleQuery,
                 (rs, rowNum) -> new Bible(

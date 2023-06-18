@@ -7,10 +7,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class BibleChapterRequestDto {
 
     private int book;
 
     private int chapter;
+
+    @Builder
+    public BibleChapterRequestDto(int book, int chapter) {
+        this.book = book;
+        this.chapter = chapter;
+    }
 }

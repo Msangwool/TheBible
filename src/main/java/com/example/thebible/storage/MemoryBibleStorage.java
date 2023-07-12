@@ -18,4 +18,8 @@ public class MemoryBibleStorage implements BibleStorage{
     public void updateTodayBibleWords(List<BibleResponseDto> todayBibleWords) {
         this.todayBibleWords = todayBibleWords;
     }
+
+    public void addTodayBibleWords(List<BibleResponseDto> todayBibleWords) {
+        this.todayBibleWords.addAll(todayBibleWords);
+    }
 }

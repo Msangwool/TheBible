@@ -19,4 +19,12 @@ public interface BibleStorage {
      * @param todayBibleWords 오늘의 성경 말씀 리스트를 받아옵니다.
      */
     void updateTodayBibleWords(List<BibleResponseDto> todayBibleWords);
+
+    /**
+     * 기존의 오늘의 말씀에 추가합니다.
+     *
+     * @param todayBibleWords 추가할 오늘의 말씀 구간입니다.
+     */
+    void addTodayBibleWords(List<BibleResponseDto> todayBibleWords);
+
 }

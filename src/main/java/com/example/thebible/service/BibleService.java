@@ -1,8 +1,6 @@
 package com.example.thebible.service;
 
-import com.example.thebible.dto.BibleChapterRequestDto;
-import com.example.thebible.dto.BibleRequestDto;
-import com.example.thebible.dto.BibleResponseDto;
+import com.example.thebible.dto.*;
 
 import java.util.List;
 
@@ -24,9 +22,15 @@ public interface BibleService {
 
     /**
      * 특정 범위에 대한 성경 말씀을 검색합니다. 검색 후, 반환하지 않고 해당 범위의 리스트를 메모리 적재 요청합니다.
-     * @param bibleRequestDtoList 검색할 성경 말씀 리스트를 받아옵니다.
+     * @param bibleRangeReqDto 범위를 측정할 수 있는 값들을 요소로 받아옵니다.
      */
-    void setBiblesRequestRange(List<BibleRequestDto> bibleRequestDtoList);
+    void setBibleRange(BibleRangeReqDto bibleRangeReqDto);
+
+    /**
+     * 특정 범위에 대한 성경 말씀을 검색하고, 해당 리스트를 메모리에 올려놓습니다.
+     * @param bibleRangeChapterReqDto 절 구간을 가져옵니다.
+     */
+    void setBibleRangeByChapter(BibleRangeChapterReqDto bibleRangeChapterReqDto);
 
     /**
      * 오늘의 성경 말씀을 조회합니다.

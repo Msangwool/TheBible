@@ -7,10 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BibleRangeReqDto {
+
     private int book;
-
     private int chapter;
-
     private int startVerse;
     private int endVerse;
     private boolean isAdd;

@@ -1,13 +1,12 @@
 package com.example.thebible.service;
 
 import com.example.thebible.dto.*;
-import com.example.thebible.repository.BibleRepository;
+import com.example.thebible.repository.BibleJpaRepository;
 import com.example.thebible.storage.BibleStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,80 +15,77 @@ import java.util.List;
 public class BibleServiceImpl implements BibleService {
 
     private final BibleStorage bibleStorage;
-    private final BibleRepository bibleRepository;
+    private final BibleJpaRepository bibleJpaRepository;
 
+    @Override
     public BibleResponseDto getBibleDetailsInfo(BibleRequestDto bibleRequestDto) {
-        return BibleResponseDto.buildDto(bibleRepository.findBible(bibleRequestDto));
+
+        return BibleResponseDto.buildDto(bibleJpaRepository.findByBookAndChapterAndVerse(bibleRequestDto.getBook(), bibleRequestDto.getChapter(), bibleRequestDto.getVerse()));
     }
 
+    @Override
     public List<BibleResponseDto> getBibleChapterList(BibleChapterRequestDto bibleChapterRequestDto) {
-        return bibleRepository.findBiblesByChapter(bibleChapterRequestDto).stream().map(BibleResponseDto::buildDto).toList();
+
+        return bibleJpaRepository.findByBookAndChapter(bibleChapterRequestDto.getBook(), bibleChapterRequestDto.getChapter()).stream().map(BibleResponseDto::buildDto).toList();
     }
 
+    @Override
     public void setBibleRange(BibleRangeReqDto bibleRangeReqDto) {
-        int startPoint = bibleRangeReqDto.getStartVerse();
-        int endPoint = bibleRangeReqDto.getEndVerse();
+
+        int startVerse = bibleRangeReqDto.getStartVerse();
+        int endVerse = bibleRangeReqDto.getEndVerse();
         try {
-            if (startPoint > endPoint) {
-                throw new NullPointerException();
+            if (startVerse > endVerse) {
+                throw new NullPointerException("정상적이지 않은 범위입니다.");
             }
+
+            List<BibleResponseDto> bibleResponseDtoList = bibleJpaRepository.findByBookAndChapterAndVerseBetween(bibleRangeReqDto.getBook(), bibleRangeReqDto.getChapter(), startVerse, endVerse).stream().map(BibleResponseDto::buildDto).toList();
+
+            if (bibleRangeReqDto.isAdd()) {
+                bibleStorage.addTodayBibleWords(bibleResponseDtoList);
+                return;
+            }
+
+            bibleStorage.updateTodayBibleWords(bibleResponseDtoList);
+
         } catch (NullPointerException e) {
             log.info("NullPointerException = {}", e.getMessage());
+        } catch (UnsupportedOperationException e) {
+            log.info("UnsupportedOperationException = {}", e.getMessage());
+        } catch (Exception e) {
+            log.info("Exception = {}", e.getMessage());
         }
-
-        BibleRequestDto bibleRequestDto = BibleRequestDto.builder()
-                .book(bibleRangeReqDto.getBook())
-                .chapter(bibleRangeReqDto.getChapter())
-                .build();
-
-        List<BibleResponseDto> bibleResponseDtoList = new ArrayList<>();
-        while (startPoint <= endPoint) {
-
-            bibleRequestDto.setVerse(startPoint);
-            bibleResponseDtoList.add(BibleResponseDto.buildDto(bibleRepository.findBible(bibleRequestDto)));
-
-            startPoint++;
-        }
-
-        if (bibleRangeReqDto.isAdd()) {
-            bibleStorage.addTodayBibleWords(bibleResponseDtoList);
-            return;
-        }
-
-        bibleStorage.updateTodayBibleWords(bibleResponseDtoList);
     }
 
+    @Override
     public void setBibleRangeByChapter(BibleRangeChapterReqDto bibleRangeChapterReqDto) {
-        int startPoint = bibleRangeChapterReqDto.getStartChapter();
-        int endPoint = bibleRangeChapterReqDto.getEndChapter();
+
+        int startChapter = bibleRangeChapterReqDto.getStartChapter();
+        int endChapter = bibleRangeChapterReqDto.getEndChapter();
         try {
-            if (startPoint > endPoint) {
-                throw new NullPointerException();
+            if (startChapter > endChapter) {
+                throw new NullPointerException("정상적이지 않은 범위입니다.");
             }
+
+            List<BibleResponseDto> bibleResponseDtoList = bibleJpaRepository.findByBookAndChapterBetween(bibleRangeChapterReqDto.getBook(), startChapter, endChapter).stream().map(BibleResponseDto::buildDto).toList();
+
+            if (bibleRangeChapterReqDto.isAdd()) {
+                bibleStorage.addTodayBibleWords(bibleResponseDtoList);
+                return;
+            }
+
+            bibleStorage.updateTodayBibleWords(bibleResponseDtoList);
+
         } catch (NullPointerException e) {
             log.info("NullPointerException = {}", e.getMessage());
+        } catch (UnsupportedOperationException e) {
+            log.info("UnsupportedOperationException = {}", e.getMessage());
+        } catch (Exception e) {
+            log.info("Exception = {}", e.getMessage());
         }
-
-        BibleChapterRequestDto bibleChapterRequestDto = BibleChapterRequestDto.builder()
-                .book(bibleRangeChapterReqDto.getBook())
-                .build();
-
-        List<BibleResponseDto> bibleResponseDtoList = new ArrayList<>();
-        while (startPoint <= endPoint) {
-
-            bibleChapterRequestDto.setChapter(startPoint);
-            bibleResponseDtoList.addAll(bibleRepository.findBiblesByChapter(bibleChapterRequestDto).stream().map(BibleResponseDto::buildDto).toList());
-
-            startPoint++;
-        }
-
-        if (bibleRangeChapterReqDto.isAdd()) {
-            bibleStorage.addTodayBibleWords(bibleResponseDtoList);
-        }
-
-        bibleStorage.updateTodayBibleWords(bibleResponseDtoList);
     }
 
+    @Override
     public List<BibleResponseDto> getBiblesRequestRange() {
         return bibleStorage.getTodayBibleWords();
     }

@@ -1,10 +1,8 @@
 package com.example.thebible.service;
 
-import com.example.thebible.core.entity.BibleRT;
 import com.example.thebible.dto.kt.*;
-import com.example.thebible.dto.rt.BibleRTResponseDto;
 import com.example.thebible.repository.BibleKTRepository;
-import com.example.thebible.storage.BibleStorage;
+import com.example.thebible.storage.BibleKTStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class BibleKTServiceImpl implements BibleKTService {
 
-    private final BibleStorage bibleStorage;
+    private final BibleKTStorage bibleStorage;
     private final BibleKTRepository bibleJpaRepository;
 
     @Override

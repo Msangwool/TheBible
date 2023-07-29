@@ -1,4 +1,4 @@
-package com.example.thebible.dto;
+package com.example.thebible.dto.kt;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BibleRangeChapterReqDto {
+public class BibleKTRangeChapterReqDto {
 
     private int book;
     private int startChapter;
@@ -14,7 +14,7 @@ public class BibleRangeChapterReqDto {
     private boolean isAdd;
 
     @Builder
-    public BibleRangeChapterReqDto(int book, int startChapter, int endChapter, boolean isAdd) {
+    public BibleKTRangeChapterReqDto(int book, int startChapter, int endChapter, boolean isAdd) {
         this.book = book;
         this.startChapter = startChapter;
         this.endChapter = endChapter;

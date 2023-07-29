@@ -10,20 +10,16 @@ import java.io.Serializable;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(Bible.BibleId.class)
-public class Bible {
+@IdClass(BibleKT.BibleId.class)
+public class BibleKT {
 
     @Id
     private int book;
-
     @Id
     private int chapter;
-
     @Id
     private int verse;
-
     private String content;
-
 
     @Embeddable
     @Data

@@ -1,4 +1,4 @@
-package com.example.thebible.dto;
+package com.example.thebible.dto.kt;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,18 +6,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BibleRequestDto {
+public class BibleKTChapterRequestDto {
 
     private int book;
 
     private int chapter;
 
-    private int verse;
-
     @Builder
-    public BibleRequestDto(int book, int chapter, int verse) {
+    public BibleKTChapterRequestDto(int book, int chapter) {
         this.book = book;
         this.chapter = chapter;
-        this.verse = verse;
     }
 }

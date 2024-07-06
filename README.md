@@ -10,7 +10,7 @@
 - spring.datasource.username=root
   <br>
   데이터베이스에서 설정한 username
-- spring.datasource.password=anstkddn991011!A
+- spring.datasource.password
   <br>
   데이터베이스에서 설정한 비밀번호
 - spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
@@ -25,7 +25,7 @@
 - @Table에는 매칭시킬 Table명을 지정해야 합니다.
 
 ## Controller
-- /init : 창세기 1장을 불러옵니다.
+- /init : 창세기 1장을 불러옵니다. default로 호출 되는 경우를 위해 존재합니다.
 - /verse : 권, 장, 절을 통해 특정 말씀을 불러옵니다.
 - /chapter : 권, 장을 통해 특정 장에 해당하는 모든 말씀을 불러옵니다.
 - /today : 오늘의 말씀을 모두 불러옵니다.
@@ -35,13 +35,13 @@
 - /range/chatper ; 권과 장 범위를 받아와 오늘의 말씀에 등록합니다.
 
 ## Repository
-JPA를 사용해 데이터베이스에 있는 데이터를 읽습니다. 읽기만 가능합니다(성경을 바꾸지 않기 때문).
+JPA를 사용해 데이터베이스와 연동하여 데이터를 읽어옵니다.
 
 ## Service
 - getBibleDetailsInfo : 몇 절인지를 통해 특정 성경 말씀을 찾습니다.
 - getBibleChapterList : 몇 장인지를 통해 성경 말씀을 찾습니다.
 - setBibleRange : 특정 절 범위에 대한 성경 말씀을 찾습니다.
-- setBibleRangeByChatper : 특정 장 점위에 대한 성경 말씀을 찾습니다.
+- setBibleRangeByChatper : 특정 장 범위에 대한 성경 말씀을 찾습니다.
 - getBiblesRequestRange : 오늘의 성경 말씀을 불러옵니다.
 
 ## Storage
